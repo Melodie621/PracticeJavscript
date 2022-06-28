@@ -8,8 +8,8 @@ function addStudent(studentName, studentAge){
     Returns:
         None
     */
-    
-    // TODO: Place your code here
+    let student = {name: studentName, age: studentAge, grades: [], finalGrade: null}
+    classroom.students.push(student);
 }
 
 function changeStudentName(oldName, newName){
@@ -21,8 +21,8 @@ function changeStudentName(oldName, newName){
     Returns:
         None
     */
-    
-    // TODO: Place your code here
+    let index = findStudent(oldName)
+    classroom.students[index].name = newName;
 }
 
 function changeStudentAge(name, newAge){
@@ -34,8 +34,8 @@ function changeStudentAge(name, newAge){
     Returns:
         None
     */
-    
-    // TODO: Place your code here
+    let index = findStudent(name)
+    classroom.students[index].age = newAge;
 }
 
 function addGrade(name, grade){
@@ -47,8 +47,8 @@ function addGrade(name, grade){
     Returns:
         None
     */
-    
-    // TODO: Place your code here
+    let index = findStudent(name)
+    classroom.students[index].grades.push(grade)
 }
 
 function addGrades(name, grades){
@@ -60,8 +60,10 @@ function addGrades(name, grades){
     Returns:
         None
     */
-    
-    // TODO: Place your code here
+    let index = findStudent(name)
+    for(const grade of grades){
+        classroom.students[index].grades.push(grade)
+    }
 }
 
 function removeLowestGrade(name){
@@ -72,8 +74,21 @@ function removeLowestGrade(name){
     Returns:
         None
     */
-    
-    // TODO: Place your code here
+    let index = findStudent(name)
+    if (classroom.students[index].grades.length == 0){
+        console.log("No grades to remove");
+        return -1; //exit function
+    }
+    let minimumGrade = Infinity; //Super high number to start so that you can find lowest grade 
+    for(const grade of classroom.students[index].grades){
+        if (grade < minimumGrade){
+            minimumGrade = grade;
+        }
+    }
+    let lowestIndex = classroom.students[index].grades.indexOf(minimumGrade);
+    if (lowestIndex != -1){
+        classroom.students[index].grades.splice(lowestIndex, 1);
+    }
 }
 
 function calculateAverageGrades(){
@@ -84,8 +99,13 @@ function calculateAverageGrades(){
     Returns:
         None
     */
-
-    // TODO: Place your code here
+    for(const student of classroom.students){
+        let sum = 0;
+        for(const grade of student.grades){
+            sum += grade;
+        }
+        student.finalGrade = sum / student.grades.length;
+    }
 }
 
 /********************************************
@@ -184,7 +204,7 @@ addGrade("D", 100)
 expected = [{name: "D", age: 15, grades: [100], finalGrade: null}, {name: "B", age: 11, grades: [], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
-console.log(`\nTotal Score: ${score} out of 100`);
+console.log(`\nTotal Score: ${score}`);
 
 //TEST 7 - Add Grade
 console.log("\n\naddGrade Functionality Test #6")
@@ -200,7 +220,7 @@ addGrades("B", [70, 80, 100])
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: null}, {name: "B", age: 11, grades: [70, 80, 100], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
-console.log(`\nTotal Score: ${score} out of 100`);
+console.log(`\nTotal Score: ${score}`);
 
 //TEST 9 - Add Grades
 console.log("\n\naddGrades Functionality Test #9")
@@ -208,7 +228,7 @@ addGrades("C", [60, 70, 70, 90])
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: null}, {name: "B", age: 11, grades: [70, 80, 100], finalGrade: null}, {name: "C", age: 10, grades: [60, 70, 70, 90], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
-console.log(`\nTotal Score: ${score} out of 100`);
+console.log(`\nTotal Score: ${score}`);
 
 //TEST 10 - Remove Lowest Grade
 console.log("\n\naddGrades Functionality Test #10")
