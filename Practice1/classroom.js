@@ -1,7 +1,20 @@
+let classroom = {students: []}
+
 //CLASSROOM FUNCTIONS - YOU WILL EDIT THESE
 function addStudent(studentName, studentAge){
     /*
-    This function will add a student to your classroom
+    This function will add a student to your classroom. (HINT: Your classroom is a list of students)
+
+    A student should be an object with the following keys:
+        name : string
+        age : string
+        grades : []
+        finalGrade : null
+    
+    For example, a student could be this -> {name: 'A', age: 10, grades: [], finalGrade: null}
+
+    After you create a student, you will need to push it into your classroom.
+
     Params:
         studentName : String - The name of the student
         studentAge : Number - The age of the student
@@ -10,6 +23,11 @@ function addStudent(studentName, studentAge){
     */
     
     // TODO: Place your code here
+    let student = {name: studentName, age: studentAge, grades: [], finalGrade: null};
+    classroom.students.push(student);
+
+
+    
 }
 
 function changeStudentName(oldName, newName){
@@ -23,6 +41,14 @@ function changeStudentName(oldName, newName){
     */
     
     // TODO: Place your code here
+//     for (let i = 0; i<classroom.students.length; i++){
+//         if (classroom.students[i].name === oldName){
+//             classroom.students[i].name = newName;
+//         }
+//     }
+
+// }
+    classroom.students[findStudent(oldName)].name = newName;
 }
 
 function changeStudentAge(name, newAge){
@@ -36,6 +62,7 @@ function changeStudentAge(name, newAge){
     */
     
     // TODO: Place your code here
+    classroom.students[findStudent(name)].age= newAge;
 }
 
 function addGrade(name, grade){
@@ -49,6 +76,8 @@ function addGrade(name, grade){
     */
     
     // TODO: Place your code here
+    classroom.students[findStudent(name)].grades.push(grade);
+
 }
 
 function addGrades(name, grades){
@@ -62,6 +91,7 @@ function addGrades(name, grades){
     */
     
     // TODO: Place your code here
+    classroom.students[findStudent(name)].grades.push(...grades);
 }
 
 function removeLowestGrade(name){
@@ -74,6 +104,11 @@ function removeLowestGrade(name){
     */
     
     // TODO: Place your code here
+    let outOfOrder= classroom.students[findStudent(name)].grades
+        let ordered= outOfOrder.sort((a,b) => a-b);
+        classroom.students[findStudent(name)].grades= ordered.slice(1,ordered.length);
+
+    
 }
 
 function calculateAverageGrades(){
@@ -86,6 +121,16 @@ function calculateAverageGrades(){
     */
 
     // TODO: Place your code here
+    for (let i = 0; i<classroom.students.length; i++)
+    { 
+        let sum= 0
+        for (let j=0; j<classroom.students[i].grades.length; j++)
+        {
+            sum += classroom.students[i].grades[j];
+        }
+        classroom.students[i].finalGrade= (sum/classroom.students[i].grades.length);
+    }
+    //for each student, for each grade, add and divide by grades.length
 }
 
 /********************************************
@@ -106,7 +151,7 @@ TEST CLASSROOM FUNCTIONS --- No Touchy ;)
 *********************************************/
 
 let score = 0;
-let classroom = {students: []}
+
 
 function assert(condition, points){
     if(condition){
@@ -153,8 +198,8 @@ result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 3 - Check addStudent function (3 Students)
-console.log("\n\naddStudent Functionality Test #3 - 3 students")
+//TEST 2 - Check addStudent function (3 Students)
+console.log("\n\naddStudent Functionality Test #2 - 3 students")
 addStudent("B", 11)
 addStudent("C", 10)
 expected = [{name: "A", age: 10, grades: [], finalGrade: null}, {name: "B", age: 11, grades: [], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
@@ -162,31 +207,31 @@ result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 4 - Change information for student
-console.log("\n\nchangeStudentName Functionality Test #4")
+//TEST 3 - Change information for student
+console.log("\n\nchangeStudentName Functionality Test #3")
 changeStudentName("A", "D")
 expected = [{name: "D", age: 10, grades: [], finalGrade: null}, {name: "B", age: 11, grades: [], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 5 - Change information for student
-console.log("\n\nchangeStudentAge Functionality Test #5")
+//TEST 4 - Change information for student
+console.log("\n\nchangeStudentAge Functionality Test #4")
 changeStudentAge("D", 15)
 expected = [{name: "D", age: 15, grades: [], finalGrade: null}, {name: "B", age: 11, grades: [], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 6 - Add Grade
-console.log("\n\naddGrade Functionality Test #6")
+//TEST 5 - Add Grade
+console.log("\n\naddGrade Functionality Test #5")
 addGrade("D", 100)
 expected = [{name: "D", age: 15, grades: [100], finalGrade: null}, {name: "B", age: 11, grades: [], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 7 - Add Grade
+//TEST 6 - Add Grade
 console.log("\n\naddGrade Functionality Test #6")
 addGrade("D", 80)
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: null}, {name: "B", age: 11, grades: [], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
@@ -194,32 +239,32 @@ result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 8 - Add Grades
-console.log("\n\naddGrades Functionality Test #8")
+//TEST 7 - Add Grades
+console.log("\n\naddGrades Functionality Test #7")
 addGrades("B", [70, 80, 100])
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: null}, {name: "B", age: 11, grades: [70, 80, 100], finalGrade: null}, {name: "C", age: 10, grades: [], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 9 - Add Grades
-console.log("\n\naddGrades Functionality Test #9")
+//TEST 8 - Add Grades
+console.log("\n\naddGrades Functionality Test #8")
 addGrades("C", [60, 70, 70, 90])
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: null}, {name: "B", age: 11, grades: [70, 80, 100], finalGrade: null}, {name: "C", age: 10, grades: [60, 70, 70, 90], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//TEST 10 - Remove Lowest Grade
-console.log("\n\naddGrades Functionality Test #10")
+//TEST 9 - Remove Lowest Grade
+console.log("\n\naddGrades Functionality Test #9")
 removeLowestGrade("C");
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: null}, {name: "B", age: 11, grades: [70, 80, 100], finalGrade: null}, {name: "C", age: 10, grades: [70, 70, 90], finalGrade: null}]
 result = classroomTest(expected);
 console.log(assert(result, 10));
 console.log(`\nTotal Score: ${score} out of 100`);
 
-//Test 11 - Report Average Grades
-console.log("\n\naddGrades Functionality Test #11")
+//Test 10 - Report Average Grades
+console.log("\n\naddGrades Functionality Test #10")
 calculateAverageGrades();
 expected = [{name: "D", age: 15, grades: [100, 80], finalGrade: 90}, {name: "B", age: 11, grades: [70, 80, 100], finalGrade: 250/3}, {name: "C", age: 10, grades: [70, 70, 90], finalGrade: 230/3}]
 result = classroomTest(expected);
